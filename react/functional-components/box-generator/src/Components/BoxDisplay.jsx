@@ -9,7 +9,7 @@ const BoxDisplay = (props) => {
                 {
                     props.boxes.map((box, i) => {
                         return (
-                            <div key={i} style={{backgroundColor: box.color, height: box.size+"px", width: box.size+"px", border: "2px solid black", borderRadius: "5%"}} ></div>
+                            <div key={i} className= "btn" style={{backgroundColor: box.color, height: box.size+"px", width: box.size+"px", border: "2px solid black", borderRadius: "5%"}} ></div>
                         )
                     })
                 }
