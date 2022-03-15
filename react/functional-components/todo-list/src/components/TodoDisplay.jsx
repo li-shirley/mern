@@ -30,7 +30,8 @@ const TodoDisplay = (props) => {
                                     <td style={{ textDecoration: task.completed ? "line-through" : ""}}>{task.name}</td>
                                     <td>{task.priority}</td>
                                     <td>
-                                        <input type="checkbox" name="completed" checked={task.completed} onChange={(e)=>setCompleted(i, e.target.checked)}/>
+                                        <input className="mx-2" type="checkbox" name="completed" checked={task.completed} onChange={(e)=>setCompleted(i, e.target.checked)}/> 
+                                        <label className="mx-2">Mark Complete</label>
                                         <button className="btn-sm btn-secondary, mx-1" onClick={ () => handleDelete(i)}>
                                             <span>Delete</span>
                                         </button>

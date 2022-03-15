@@ -2,7 +2,7 @@ import './App.css';
 import React, {useState} from 'react'
 import TodoDisplay from './components/TodoDisplay';
 import TodoForm from './components/TodoForm';
-// import TodoWithReducer from './components/TodoWithReducer';
+import TodoWithReducer from './components/TodoWithReducer';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -14,10 +14,12 @@ function App() {
     setTasks(allTasks)
   }
   return (
-    <div style={{padding: "20px"}}>
-      {/* <TodoWithReducer /> */}
-      <TodoForm onNewTask={handleNewTask} />
-      <TodoDisplay tasks={tasks} handleUpdateTasks={handleUpdateTasks}/>
+    <div>
+      <TodoWithReducer />
+      <div className="container w-50 shadow p-3 mb-5 bg-body rounded">
+        <TodoForm onNewTask={handleNewTask} />
+        <TodoDisplay tasks={tasks} handleUpdateTasks={handleUpdateTasks}/>
+      </div>
     </div>
   );
 }

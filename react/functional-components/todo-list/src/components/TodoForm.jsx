@@ -31,7 +31,7 @@ const TodoForm = (props) => {
                 }
 
                 <label className="form-label">Priority Level</label>
-                <select className="form-control my-1" name="priority" onChange={(e) => setPriority(e.target.value)} value={priority}>
+                <select className="form-select my-1" name="priority" onChange={(e) => setPriority(e.target.value)} value={priority}>
                     <option value="1">Level 1</option>
                     <option value="2">Level 2</option>
                     <option value="3">Level 3</option>
