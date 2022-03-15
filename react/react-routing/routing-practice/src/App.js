@@ -10,16 +10,18 @@ import {
 
 function App() {
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route path="/home">
-          <Home />
-        </Route>
-        <Route path="/:value/:textColor?/:bgColor?">
-          <Value />
-        </Route>
-      </Switch>
-    </BrowserRouter>
+    <div className="App">
+      <BrowserRouter>
+        <Switch>
+          <Route path="/home">
+            <Home />
+          </Route>
+          <Route path="/:value/:textColor?/:bgColor?">
+            <Value />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </div>
   );
 }
 
