@@ -7,7 +7,7 @@ const Pokemon = () => {
     const [pokemonName, setPokemonName] = useState("");
 
     const handleFetchAll = () => {
-        axios.get('https://pokeapi.co/api/v2/pokemon?limit=807')
+        axios.get('https://pokeapi.co/api/v2/pokemon?limit=898')
             .then(response => { 
                 console.log(response)
                 setPokemons(response.data.results) })

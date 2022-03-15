@@ -5,7 +5,7 @@ const Pokemon = () => {
 
     function handleFetch (e) {
         e.preventDefault();
-        fetch('https://pokeapi.co/api/v2/pokemon?limit=807')
+        fetch('https://pokeapi.co/api/v2/pokemon?limit=898')
             .then(response => response.json())
             .then(jsonResponse => setPokemons(jsonResponse.results))
             .catch(error => console.log(error))
