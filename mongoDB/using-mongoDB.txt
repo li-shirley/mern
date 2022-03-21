@@ -1,0 +1,59 @@
+1.) show dbs
+
+2.) use my_first_db
+
+3.) db.createCollection("students")
+
+4.) db.students.insert({name: "Macchiato", home_state: "Washington", lucky_number: 7, birthday:{month: 05, day: 01, year:2012}})
+
+5.) db.students.insert({name: "Moose", home_state: "Oregona", lucky_number: 2, birthday:{month: 01, day: 01, year:2017}})
+
+6.) db.students.insert({name: "Mocha", home_state: "California", lucky_number: 8, birthday:{month: 01, day: 01, year:2016}})
+
+7.) db.students.insert({name: "Sammie", home_state: "Kansas", lucky_number: 9, birthday:{month: 03, day: 14, year:2015}})
+
+8.) db.students.insert({name: "Millie", home_state: "Washington", lucky_number: 1, birthday:{month: 01, day: 01, year:2020}})
+
+9.) db.students.find({})
+
+10.) db.students.find({home_state: "Washington"})
+
+11.) db.students.find({lucky_number:{$gt: 3}})
+
+12.) db.students.find({lucky_number:{$lte: 10}})
+
+13.) db.students.find({lucky_number:{$gt: 1, $lte: 9}})
+
+14.) db.students.updateMany({}, {$set: {interests:  ['Coding', 'Brunch', 'MongoDB']}})
+
+15.) db.students.update({_id: ObjectId("6234eb9000c6fcb11dbb51fc")}, {$push: {interests: 'skiing'}})
+
+16.) db.students.update({_id: ObjectId("6234ed8100c6fcb11dbb51fd")}, {$push: {interests: 'hiking'}})
+
+17.) db.students.update({_id: ObjectId("6234ee2b00c6fcb11dbb51fe")}, {$push: {interests: 'baking'}})
+
+18.) db.students.update({_id: ObjectId("6234ee4b00c6fcb11dbb51ff")}, {$push: {interests: 'bouldering'}})
+
+19.) db.students.update({_id: ObjectId("6234ee6700c6fcb11dbb5200")}, {$push: {interests: 'aerial arts'}})
+
+20.) db.students.update({_id: ObjectId("6234ee6700c6fcb11dbb5200")}, {$push: {interests: 'taxes'}})
+
+21.) db.students.update({_id: ObjectId("6234ee6700c6fcb11dbb5200")}, {$pop: {interests: 1}})
+
+22.) db.students.remove({home_state: "California"})
+
+23.) db.students.deleteOne({name: "Moose"})
+
+24.) db.students.deleteOne({lucky_number: {$gt: 5}})
+
+25.) db.students.updateMany({}, {$set: {number_of_belts: 0}})
+
+26.) db.students.update({home_state: "Washington"}, {$set: {number_of_belts: 1}})
+
+27.) db.students.updateMany({}, {$rename: {number_of_belts: "belts_earned"}})
+
+28.) db.students.updateMany({}, {$unset: {lucky_number: ""}})
+
+29.) db.students.updateMany({}, {$currentDate: {updated_on: {$type: 'date'}}})
+
+30.) db.students.find()
