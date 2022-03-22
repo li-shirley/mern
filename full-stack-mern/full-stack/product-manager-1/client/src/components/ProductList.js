@@ -1,42 +1,31 @@
 import React from 'react'
 import {Link} from "react-router-dom";
+import axios from "axios"
+
 
 const ProductList = (props) => {
+    const deleteProduct = (productId) => {
+        axios.delete(`http://localhost:8000/api/products/${productId}`)
+            .then(res => {
+                props.onNewSubmit(productId)
+            })
+            .catch(err => console.error(err));
+    }
     return (
         <div className="container w-50 my-5">
             <h3>All Products</h3> 
             {
                 props.products &&
                 props.products.map((product, i) => (
-                    <Link to={`/products/${product._id}`} key={i}>
-                        <p>{product.title}</p>
-                    </Link>
+                    <div className="d-flex align-items-center m-2">
+                        <button className="btn btn-sm btn-outline-secondary me-3" onClick={e=>{deleteProduct(product._id)}}>Delete</button>
+                        <Link to={`/products/${product._id}`} key={i}>
+                            <p>{product.title}</p>
+                        </Link>
+                    </div>
                 ))
                 
             }
-            {/* <table className="table">
-                <thead>
-                    <tr>
-                        <th> Title</th>
-                        <th> Price</th>
-                        <th> Description</th>
-                        <th> Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        props.products &&
-                        props.products.map((product, i) => (
-                            <tr key={i}>
-                                <td> {product.title}</td>
-                                <td> ${product.price}</td>
-                                <td> {product.description}</td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table> */}
-            
         </div>
     )
 }

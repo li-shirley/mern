@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 const Details = (props) => {
     const [product, setProduct] = useState()
@@ -9,7 +9,6 @@ const Details = (props) => {
     useEffect(() => {
         axios.get(`http://localhost:8000/api/products/${id}`)
             .then(res => {
-                console.log(res.data)
                 setProduct(res.data)
             })
             .catch(err => console.error(err));
@@ -23,6 +22,9 @@ const Details = (props) => {
                         <h3> Name: {product.title}</h3>
                         <h3> Price: ${product.price}</h3>
                         <h3> Description: {product.description}</h3>
+                        <Link to={`/products/${product._id}/edit`}>Edit</Link>
+
+
                     </div> 
             }
         </div>

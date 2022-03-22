@@ -1,30 +1,41 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import { useParams, useHistory } from "react-router-dom";
 
-export default (props) => {
-    const [title, setTitle] = useState(""); 
-    const [price, setPrice] = useState("");
-    const [description, setDescription] = useState(""); 
+const Update = (props) => {
+    const { id } = useParams();
+    const [title, setTitle] = useState('');
+    const [price, setPrice] = useState('');
+    const [description, setDescription] = useState('');
+    const history = useHistory();
 
-    const handleSubmit = e => {
+    useEffect(() => {
+        axios.get(`http://localhost:8000/api/products/${id}`)
+            .then(res => {
+                setTitle(res.data.title);
+                setPrice(res.data.price);
+                setDescription(res.data.description);
+            })
+    }, []);
+
+    const updateProduct = e => {
         e.preventDefault();
-        axios.post('http://localhost:8000/api/products/new', {
+        axios.put(`http://localhost:8000/api/products/${id}`, {
             title,
             price,
             description
         })
-            .then(res=>console.log(res))
-                setTitle("")
-                setPrice("")
-                setDescription("")
-                props.onNewSubmit()
-            .catch(err=>console.log(err))
+            .then(res => {
+                console.log(res)
+                history.push(`/products/${id}`)
+            })
+            .catch(err => console.error(err));
     }
 
     return (
         <div className="container w-50 shadow p-3 my-5 bg-body rounded">
-            <h3>Add Product</h3>
-            <form onSubmit={handleSubmit}>
+            <h3>Update a Product</h3>
+            <form onSubmit={updateProduct}>
                 <div>
                     <label className="form-label">Title</label>
                     <input className="form-control" type="text" name="title" onChange={(e)=>setTitle(e.target.value)} value={title}/>
@@ -42,4 +53,6 @@ export default (props) => {
         </div>
     )
 }
+
+export default Update;
 

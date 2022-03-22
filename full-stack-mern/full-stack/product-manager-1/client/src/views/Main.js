@@ -21,8 +21,8 @@ const Main = (props) => {
 
     return (
         <div>
-            <ProductForm onNewFormSubmit={refreshAfterFormSubmit}/>
-            {products && <ProductList products={products} />}
+            <ProductForm onNewSubmit={refreshAfterFormSubmit}/>
+            {products && <ProductList products={products} onNewSubmit={refreshAfterFormSubmit} />}
         </div>
     )
 }
