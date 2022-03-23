@@ -41,7 +41,7 @@ export default (props) => {
                     <label className="form-label">Description</label>
                     <textarea className="form-control" type="text" name="description" onChange={(e)=>setDescription(e.target.value)} value={description}/>
                 </div>
-                <button className="btn btn-primary mt-3">Submit</button>
+                <button className="btn btn-sm btn-primary mt-3">Submit</button>
             </form>
         </div>
     )

@@ -13,7 +13,7 @@ const Main = () => {
             .catch(err => console.error(err));
     }, [refresh]);
 
-    function refreshAfterFormSubmit() {
+    function refreshPage() {
         setRefresh(!refresh);
     }
 
@@ -21,7 +21,7 @@ const Main = () => {
         axios.post('http://localhost:8000/api/products/new', product)
             .then(res => {
                 setProducts([...products, res.data])
-                refreshAfterFormSubmit()
+                refreshPage()
             })
     }
 
@@ -33,7 +33,7 @@ const Main = () => {
             </div>
                 {
                     products && 
-                    <ProductList products={products} onNewSubmit={refreshAfterFormSubmit} />
+                    <ProductList products={products} onNewSubmit={refreshPage} />
                 }
         </div>
     )
