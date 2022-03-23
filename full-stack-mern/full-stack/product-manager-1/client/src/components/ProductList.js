@@ -7,7 +7,7 @@ const ProductList = (props) => {
     const deleteProduct = (productId) => {
         axios.delete(`http://localhost:8000/api/products/${productId}`)
             .then(res => {
-                props.onNewSubmit(productId)
+                props.onNewSubmit()
             })
             .catch(err => console.error(err));
     }

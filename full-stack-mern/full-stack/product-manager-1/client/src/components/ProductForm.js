@@ -1,29 +1,33 @@
 import React, { useState } from 'react'
-import axios from 'axios';
+// import axios from 'axios';
 
 export default (props) => {
-    const [title, setTitle] = useState(""); 
-    const [price, setPrice] = useState("");
-    const [description, setDescription] = useState(""); 
+    const {initialTitle, initialPrice, initialDescription, onSubmit} = props;
+    const [title, setTitle] = useState(initialTitle); 
+    const [price, setPrice] = useState(initialPrice);
+    const [description, setDescription] = useState(initialDescription); 
 
     const handleSubmit = e => {
         e.preventDefault();
-        axios.post('http://localhost:8000/api/products/new', {
-            title,
-            price,
-            description
-        })
-            .then(res=>console.log(res))
-                setTitle("")
-                setPrice("")
-                setDescription("")
-                props.onNewSubmit()
-            .catch(err=>console.log(err))
+        onSubmit({title, price, description})
+        setTitle(initialTitle)
+        setPrice(initialTitle)
+        setDescription(initialDescription)
+        // axios.post('http://localhost:8000/api/products/new', {
+        //     title,
+        //     price,
+        //     description
+        // })
+        //     .then(res=>console.log(res))
+        //         setTitle("")
+        //         setPrice("")
+        //         setDescription("")
+        //         props.onNewSubmit()
+        //     .catch(err=>console.log(err))
     }
 
     return (
-        <div className="container w-50 shadow p-3 my-5 bg-body rounded">
-            <h3>Add Product</h3>
+        <div>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label className="form-label">Title</label>
