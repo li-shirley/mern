@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { useParams, useHistory, Link } from "react-router-dom";
+import AuthorForm from '../components/AuthorForm';
 
 const EditAuthor = () => {
     const { id } = useParams();
@@ -8,12 +9,14 @@ const EditAuthor = () => {
     const history = useHistory();
     // const [errors, setErrors] = useState("")
     const [error, setError] = useState("")
+    const [loaded, setLoaded] = useState(false)
     const [notFound, setNotFound] = useState(false)
 
     useEffect(() => {
         axios.get(`http://localhost:8000/api/authors/${id}`)
             .then(res => {
                 setName(res.data.name);
+                setLoaded(true)
             })
             .catch(err => {
                 console.log(err)
@@ -21,11 +24,9 @@ const EditAuthor = () => {
             })
     }, []);
 
-    const handleUpdate = (e) => {
-        e.preventDefault()
-        axios.put(`http://localhost:8000/api/authors/${id}`, { name })
+    const editAuthor = (author) => {
+        axios.put(`http://localhost:8000/api/authors/${id}`, author)
             .then(res => {
-                console.log(res)
                 history.push(`/`)
             })
             .catch(err => {
@@ -52,14 +53,11 @@ const EditAuthor = () => {
                     :
                     <div className="container w-50 shadow p-3 my-5 bg-body rounded">
                         <h3>Edit author:</h3>
-                        <form onSubmit={handleUpdate}>
-                            <div>
-                                <label className="form-label">Name:</label>
-                                <input className="form-control" type="text" name="name" onChange={(e) => setName(e.target.value)} value={name} />
-                            </div>
-                            <Link to={`/`} className="btn btn-outline-primary me-2 mt-3">Cancel</Link>
-                            <button className="btn btn btn-primary mt-3">Submit</button>
-                        </form>
+                        {
+                            loaded && (
+                                <AuthorForm onSubmitProp={editAuthor} initialName={name}/>
+                            )
+                        }
                         {
                             // errors &&
                             // errors.map((error, i) => (
