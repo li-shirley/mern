@@ -19,7 +19,7 @@ const ProductList = (props) => {
             {
                 products &&
                 products.map((product, i) => (
-                    <div className="d-flex align-items-center m-2">
+                    <div key={i} className="d-flex align-items-center m-2">
                         <DeleteButton productId = {product._id} successCallback={onNewSubmit}/>
                         <Link to={`/products/${product._id}`} key={i}>
                             <p>{product.title}</p>

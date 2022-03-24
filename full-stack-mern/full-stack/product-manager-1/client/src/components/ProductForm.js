@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 // import axios from 'axios';
 
 export default (props) => {
-    const {initialTitle, initialPrice, initialDescription, onSubmit} = props;
+    const {initialTitle, initialPrice, initialDescription, onSubmit, errors} = props;
     const [title, setTitle] = useState(initialTitle); 
     const [price, setPrice] = useState(initialPrice);
     const [description, setDescription] = useState(initialDescription); 
@@ -43,6 +43,13 @@ export default (props) => {
                 </div>
                 <button className="btn btn-sm btn-primary mt-3">Submit</button>
             </form>
+            {
+                errors &&
+                errors.map((err, i) => {
+                    return(
+                    <p key={i} className="text-danger">{err}</p>
+                )})
+            }
         </div>
     )
 }
