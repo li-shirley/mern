@@ -6,12 +6,6 @@ import axios from "axios"
 const Dashboard = () => {
     const [authors, setAuthors] = useState()
 
-    // useEffect(() => {
-    //     axios.get("http://localhost:8000/api/authors")
-    //         .then(res => setAuthors(res.data))
-    //         .catch(err => console.log(err))
-    // }, [])
-
     useEffect (() => {
         axios.get("http://localhost:8000/api/authors")
             .then (res => {
