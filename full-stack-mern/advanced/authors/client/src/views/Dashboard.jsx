@@ -6,11 +6,27 @@ import axios from "axios"
 const Dashboard = () => {
     const [authors, setAuthors] = useState()
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     axios.get("http://localhost:8000/api/authors")
+    //         .then(res => setAuthors(res.data))
+    //         .catch(err => console.log(err))
+    // }, [])
+
+    useEffect (() => {
         axios.get("http://localhost:8000/api/authors")
-            .then(res => setAuthors(res.data))
+            .then (res => {
+                setAuthors(res.data.sort((a,b) => {
+                    if (a.name.toLowerCase() < b.name.toLowerCase()){
+                        return -1
+                    }
+                    if (a.name.toLowerCase() > b.name.toLowerCase()){
+                        return 1
+                    }
+                    return 0
+                }))
+            })
             .catch(err => console.log(err))
-    }, [])
+    })
 
     const deleteAuthor = (deleteId) => {
         axios.delete(`http://localhost:8000/api/authors/${deleteId}`)
