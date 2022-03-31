@@ -3,12 +3,11 @@ import { MyContext } from '../App';
 import ReactTags from 'react-tag-autocomplete'
 
 const SearchBar = (props) => {
-    const {age, sex, evidence, tags, suggestions, onDelete, onAddition, setViewSexInput, setViewSymptomInput} = useContext(MyContext)
+    const {age, sex, evidence, tags, suggestions, onDelete, onAddition, setViewSexInput, setViewSymptomInput, setViewQuestionInput} = useContext(MyContext)
     const reactTags = useRef()
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        props.handleFirstSubmit(age, sex, evidence)
+    function handleSubmit() {
+        props.handleFirstSubmit(age, sex, evidence);
     }
     
     return (
@@ -21,7 +20,7 @@ const SearchBar = (props) => {
                 onAddition={onAddition}
                 placeholderText="Search symptoms" />
             <button className="btn btn btn-secondary me-3 mt-3" onClick={(e) => { setViewSexInput(true); setViewSymptomInput(false); }}>Back</button>
-            <button className="btn btn btn-primary mt-3" onClick={handleSubmit}>Next</button>
+            <button className="btn btn btn-primary mt-3" onClick={handleSubmit}>Submit</button>
         </div>
     )
 }
