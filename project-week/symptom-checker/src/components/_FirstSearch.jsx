@@ -60,22 +60,7 @@ const FirstSearch = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        const header = {
-            "Content-Type": "application/json",
-            "App-Key": process.env.REACT_APP_API_KEY,
-            "App-Id": process.env.REACT_APP_API_ID
-        }
-        axios.post('https://api.infermedica.com/v3/diagnosis', {
-            "age": {
-                "value": age
-            },
-            "sex": sex,
-            "evidence": evidence
-        }, {headers: header})
-            .then(res => {
-                console.log(res.data)
-            })
-            .catch(err => console.log(err))
+        props.handleFirstSubmit(age, sex, evidence)
     }
 
     return (
