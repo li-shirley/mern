@@ -3,7 +3,7 @@ import { MyContext } from '../App';
 import { BsQuestionDiamond } from "react-icons/bs";
 
 const Question = (props) => {
-    const { question, present, setPresent, setViewQuestionInput, setViewSymptomInput, age, sex, evidence, setEvidence, broadConditions } = useContext(MyContext)
+    const { question, present, setPresent, evidence, setEvidence, broadConditions } = useContext(MyContext)
 
     function handleQuestion() {
         props.handleQuestionSubmit([...evidence, { "id": question.items[0]["id"], "choice_id": present }]);
@@ -19,7 +19,6 @@ const Question = (props) => {
                 <option value="absent">No</option>
                 <option value="unknown">Don't know</option>
             </select>
-            {/* <button className="btn btn btn-secondary me-3 mt-3" onClick={(e) => { setViewQuestionInput(false); setViewSymptomInput(true); }}>Back</button> */}
             <button className="btn btn btn-primary my-3" onClick={handleQuestion}>Next</button>
             <div className="mt-3">
                 {

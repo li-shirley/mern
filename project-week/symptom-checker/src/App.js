@@ -1,5 +1,5 @@
 import React, { createContext, useState, useCallback } from "react";
-import { BrowserRouter, Route, useHistory, Switch } from "react-router-dom";
+import { Route, useHistory, Switch } from "react-router-dom";
 import axios from "axios";
 import './App.css'
 import logo from "./images/logo.jpg"
@@ -32,7 +32,7 @@ function App() {
     if (e.target.value <= 0) {
       setAgeErr("Age is required.")
     }
-    else if(e.target.value %1 != 0) {
+    else if(e.target.value %1 !== 0) {
       setAgeErr("Age must be a whole number")
     }
     else if (e.target.value > 119) {
@@ -137,7 +137,7 @@ function App() {
         value={{ age, setAge, ageErr, setAgeErr, sex, setSex, tags, setTags, suggestions, setSuggestions, evidence, setEvidence, handleAge, onDelete, onAddition, question, present, setPresent, results, broadConditions }}>
         <Switch>
           <div className="container w-50 shadow p-3 my-5 bg-body rounded-3 text-center p-5 border border-5">
-            <img src={logo} style={{width: "60%"}}></img>
+            <img src={logo} style={{width: "60%"}} alt=""></img>
             <Route exact path="/symptom-check">
               <Intro/>
             </Route>
