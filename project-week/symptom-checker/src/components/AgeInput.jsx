@@ -14,7 +14,7 @@ const AgeInput = (props) => {
                 ageErr &&
                 <p className="text-danger">{ageErr}</p>
             }
-            <input className="form-control" type="number" name="age" onChange={handleAge} value={age} />
+            <input className="form-control text-center" type="number" name="age" onChange={handleAge} value={age} />
             <button className="btn btn btn-secondary me-3 mt-3" onClick={ (e) => history.push("/symptom-check/disclaimer")}>Back</button>
             <button className="btn btn btn-primary mt-3" disabled={ageErr} onClick={(e) => {
                 props.getSymptoms();

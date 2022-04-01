@@ -23,7 +23,7 @@ function App() {
   const [evidence, setEvidence] = useState([])
   const [question, setQuestion] = useState({})
   const [present, setPresent] = useState("present")
-  const [broadConditions, setBroadConditions] = useState([])
+  const [broadConditions, setBroadConditions] = useState()
   const [results, setResults] = useState({})
   const history = useHistory();
 
@@ -136,7 +136,7 @@ function App() {
       <MyContext.Provider
         value={{ age, setAge, ageErr, setAgeErr, sex, setSex, tags, setTags, suggestions, setSuggestions, evidence, setEvidence, handleAge, onDelete, onAddition, question, present, setPresent, results, broadConditions }}>
         <Switch>
-          <div className="container w-50 shadow p-3 my-5 bg-body rounded-3 text-center p-5">
+          <div className="container w-50 shadow p-3 my-5 bg-body rounded-3 text-center p-5 border border-5">
             <img src={logo} style={{width: "60%"}}></img>
             <Route exact path="/symptom-check">
               <Intro/>
