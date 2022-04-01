@@ -8,7 +8,7 @@ const AgeInput = (props) => {
     const history=useHistory()
     return (
         <div>
-            <h3>What is your age?</h3>
+            <h3 className="text-info">What is your age?</h3>
             <FaBirthdayCake size="2em" className="mb-3"/>
             {
                 ageErr &&

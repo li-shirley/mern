@@ -9,7 +9,7 @@ const SexInput = () => {
     const history = useHistory()
     return (
         <div>
-            <h3 className="form-label">What is your sex?</h3>
+            <h3 className="text-info">What is your sex?</h3>
             <IoFemale size="2em"/>
             <IoMale size="2em"/>
             <select className="form-select text-center mt-3" name="sex" onChange={(e) => setSex(e.target.value)} value={sex}>

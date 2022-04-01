@@ -15,7 +15,7 @@ const SearchBar = (props) => {
 
     return (
         <div>
-            <h3>Which symptoms are you experiencing?</h3>
+            <h3 className="text-info">Which symptoms are you experiencing?</h3>
             <IoBodyOutline size="2em"/>
             <h6 className="mt-3">(You may add more than one symptom)</h6>
             <ReactTags

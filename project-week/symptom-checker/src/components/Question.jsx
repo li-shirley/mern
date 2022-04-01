@@ -12,7 +12,7 @@ const Question = (props) => {
     return (
         <div>
             <h5>Please answer questions to the best of your ability. Questions will end when the most accurate condition is predicted.</h5>
-            <h3 className="form-label">{question.text}</h3>
+            <h3 className="form-label mt-5 text-info">{question.text}</h3>
             <BsQuestionDiamond size="2em" />
             <select className="form-select text-center mt-3" name="present" onChange={(e) => setPresent(e.target.value)} value={present}>
                 <option value="present">Yes</option>
@@ -26,13 +26,21 @@ const Question = (props) => {
                     <div>
                         <h4>Probable Conditions: </h4>
                         <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Medical Term</th>
+                                    <th>Common Name</th>
+                                    <th>Probability</th>
+                                </tr>
+                            </thead>
                             <tbody>
                                 {
                                     broadConditions.map((condition, i) => (
 
                                         <tr key={i}>
-                                            <th>{condition.name}</th>
-                                            <td>Probability: {condition.probability.toFixed(2) * 100}%</td>
+                                            <th> {condition.name}</th>
+                                            <th> {condition.common_name}</th>
+                                            <td> {condition.probability.toFixed(3) * 100}%</td>
                                         </tr>
                                     ))
                                 }
