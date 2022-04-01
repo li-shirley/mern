@@ -8,27 +8,33 @@ import SearchBar from "./components/SearchBar";
 import SexInput from "./components/SexInput";
 import AgeInput from "./components/AgeInput";
 import Question from "./components/Question";
+import Results from "./components/Results";
 
 export const MyContext = createContext()
 
 function App() {
-  const [age, setAge] = useState("") //1
-  const [ageErr, setAgeErr] = useState(true) //2
-  const [viewAgeInput, setViewAgeInput] = useState(true) //3
+  const [age, setAge] = useState("")
+  const [ageErr, setAgeErr] = useState(true)
+  const [viewAgeInput, setViewAgeInput] = useState(true)
 
-  const [sex, setSex] = useState("male") //4
-  const [viewSexInput, setViewSexInput] = useState(false) //5
+  const [sex, setSex] = useState("male")
+  const [viewSexInput, setViewSexInput] = useState(false)
 
-  const [tags, setTags] = useState([]) //6
+  const [tags, setTags] = useState([])
   // const [suggestions, setSuggestions] = useState([])
   const [suggestions, setSuggestions] = useState(SymptomData) //7 for testing and conserving API calls 
   const [viewSymptomInput, setViewSymptomInput] = useState(false) //8
 
-  const [evidence, setEvidence] = useState([]) //9
+  const [evidence, setEvidence] = useState([])
 
-  const [question, setQuestion] = useState({}) //10
-  const [present, setPresent] = useState("present") //11
-  const [viewQuestionInput, setViewQuestionInput] = useState(false) //12
+  const [question, setQuestion] = useState({})
+  const [present, setPresent] = useState("present")
+  const [viewQuestionInput, setViewQuestionInput] = useState(false)
+
+  const [broadConditions, setBroadConditions] = useState([])
+
+  const [shouldStop, setShouldStop] = useState(false)
+  const [results, setResults] = useState({})
 
 
   const handleAge = (e) => {
@@ -84,10 +90,10 @@ function App() {
         setViewSymptomInput(false);
         setViewQuestionInput(true);
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err.response))
   }
 
-  function handleQuestionSubmit(age, sex, evidence) {
+  function handleQuestionSubmit(e) {
     const header = {
       "Content-Type": "application/json",
       "App-Key": process.env.REACT_APP_API_KEY,
@@ -98,20 +104,44 @@ function App() {
         "value": age
       },
       "sex": sex,
-      "evidence": evidence,
+      "evidence": e,
       "extras": { "disable_groups": true }
     }, { headers: header })
       .then(res => {
         console.log(res.data)
-        setQuestion(res.data.question)
+        if (res.data.should_stop === true) {
+          getCondition(res.data.conditions[0].id)
+        }
+        else {
+          setQuestion(res.data.question)
+          setBroadConditions(res.data.conditions)
+        }
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err.response))
   }
 
+  function getCondition(id) {
+    const header = {
+      "Content-Type": "application/json",
+      "App-Key": process.env.REACT_APP_API_KEY,
+      "App-Id": process.env.REACT_APP_API_ID
+    }
+    axios.get(`https://api.infermedica.com/v3/conditions/${id}?age.value=${age}`, {
+      headers: header
+    })
+      .then(res => {
+        console.log(res.data)
+        setResults(res.data)
+        setViewQuestionInput(false)
+        setShouldStop(true)
+      })
+      .catch(err => console.log(err.response))
+      
+  }
 
   return (
     <MyContext.Provider
-      value={{ age, setAge, ageErr, setAgeErr, viewAgeInput, setViewAgeInput, sex, setSex, viewSexInput, setViewSexInput, tags, setTags, suggestions, setSuggestions, viewSymptomInput, setViewSymptomInput, evidence, setEvidence, handleAge, onDelete, onAddition, question, present, setPresent, setViewQuestionInput, setViewSymptomInput }}>
+      value={{ age, setAge, ageErr, setAgeErr, viewAgeInput, setViewAgeInput, sex, setSex, viewSexInput, setViewSexInput, tags, setTags, suggestions, setSuggestions, viewSymptomInput, setViewSymptomInput, evidence, setEvidence, handleAge, onDelete, onAddition, question, present, setPresent, setViewQuestionInput, setViewSymptomInput, results, broadConditions }}>
 
       <div className="container w-50 shadow p-3 my-5 bg-body rounded text-center">
         <h1>Symptom Checker</h1>
@@ -130,6 +160,10 @@ function App() {
         {
           viewQuestionInput &&
           <Question handleQuestionSubmit={handleQuestionSubmit} />
+        }
+        {
+          shouldStop &&
+          <Results />
         }
       </div>
     </MyContext.Provider >
