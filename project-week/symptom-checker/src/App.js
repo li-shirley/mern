@@ -1,46 +1,39 @@
 import React, { createContext, useState, useCallback } from "react";
+import { BrowserRouter, Route, useHistory, Switch } from "react-router-dom";
 import axios from "axios";
 import './App.css'
-// import FirstSearch from "./components/_FirstSearch";
+import logo from "./images/logo.jpg"
 
-import SymptomData from "./Data.json"
 import SearchBar from "./components/SearchBar";
 import SexInput from "./components/SexInput";
 import AgeInput from "./components/AgeInput";
 import Question from "./components/Question";
 import Results from "./components/Results";
+import Intro from "./components/Intro";
+import Disclaimer from "./components/Disclaimer";
 
 export const MyContext = createContext()
 
 function App() {
   const [age, setAge] = useState("")
   const [ageErr, setAgeErr] = useState(true)
-  const [viewAgeInput, setViewAgeInput] = useState(true)
-
   const [sex, setSex] = useState("male")
-  const [viewSexInput, setViewSexInput] = useState(false)
-
   const [tags, setTags] = useState([])
-  // const [suggestions, setSuggestions] = useState([])
-  const [suggestions, setSuggestions] = useState(SymptomData) //7 for testing and conserving API calls 
-  const [viewSymptomInput, setViewSymptomInput] = useState(false) //8
-
+  const [suggestions, setSuggestions] = useState([])
   const [evidence, setEvidence] = useState([])
-
   const [question, setQuestion] = useState({})
   const [present, setPresent] = useState("present")
-  const [viewQuestionInput, setViewQuestionInput] = useState(false)
-
   const [broadConditions, setBroadConditions] = useState([])
-
-  const [shouldStop, setShouldStop] = useState(false)
   const [results, setResults] = useState({})
-
+  const history = useHistory();
 
   const handleAge = (e) => {
     setAge(e.target.value)
     if (e.target.value <= 0) {
       setAgeErr("Age is required.")
+    }
+    else if(e.target.value %1 != 0) {
+      setAgeErr("Age must be a whole number")
     }
     else if (e.target.value > 119) {
       setAgeErr("Age inputted exceeds the age of oldest person currently alive.")
@@ -48,18 +41,19 @@ function App() {
     else setAgeErr("")
   }
 
-  // function getSymptoms() {
-  //   const header = {
-  //     "App-Key": process.env.REACT_APP_API_KEY,
-  //     "App-Id": process.env.REACT_APP_API_ID
-  //   };
-  //   axios.get(`https://api.infermedica.com/v3/symptoms?age.value=${age}`, { headers: header })
-  //     .then(res => {
-  //       console.log(res.data)
-  //       setSuggestions(res.data)
-  //     })
-  //     .catch(err => console.log(err))
-  // }
+  function getSymptoms() {
+    const header = {
+      "App-Key": process.env.REACT_APP_API_KEY,
+      "App-Id": process.env.REACT_APP_API_ID
+    };
+    axios.get(`https://api.infermedica.com/v3/symptoms?age.value=${age}`, { headers: header })
+      .then(res => {
+        console.log(res.data)
+        setSuggestions(res.data)
+        history.push("/symptom-check/sex")
+      })
+      .catch(err => console.log(err))
+  }
 
   const onDelete = useCallback((tagIdx) => {
     setTags(tags.filter((_, i) => i !== tagIdx))
@@ -87,8 +81,7 @@ function App() {
       .then(res => {
         console.log(res.data.question)
         setQuestion(res.data.question)
-        setViewSymptomInput(false);
-        setViewQuestionInput(true);
+        history.push("/symptom-check/questions")
       })
       .catch(err => console.log(err.response))
   }
@@ -132,41 +125,45 @@ function App() {
       .then(res => {
         console.log(res.data)
         setResults(res.data)
-        setViewQuestionInput(false)
-        setShouldStop(true)
+        history.push("/symptom-check/results")
       })
       .catch(err => console.log(err.response))
       
   }
 
   return (
-    <MyContext.Provider
-      value={{ age, setAge, ageErr, setAgeErr, viewAgeInput, setViewAgeInput, sex, setSex, viewSexInput, setViewSexInput, tags, setTags, suggestions, setSuggestions, viewSymptomInput, setViewSymptomInput, evidence, setEvidence, handleAge, onDelete, onAddition, question, present, setPresent, setViewQuestionInput, setViewSymptomInput, results, broadConditions }}>
+    
+      <MyContext.Provider
+        value={{ age, setAge, ageErr, setAgeErr, sex, setSex, tags, setTags, suggestions, setSuggestions, evidence, setEvidence, handleAge, onDelete, onAddition, question, present, setPresent, results, broadConditions }}>
+        <Switch>
+          <div className="container w-50 shadow p-3 my-5 bg-body rounded-3 text-center p-5">
+            <img src={logo} style={{width: "60%"}}></img>
+            <Route exact path="/symptom-check">
+              <Intro/>
+            </Route>
+            <Route exact path="/symptom-check/disclaimer">
+              <Disclaimer/>
+            </Route>
+            <Route exact path="/symptom-check/age">
+              <AgeInput getSymptoms={getSymptoms}/>
+            </Route>
+            <Route exact path="/symptom-check/sex">
+              <SexInput />
+            </Route>
+            <Route exact path="/symptom-check/search">
+              <SearchBar handleFirstSubmit={handleFirstSubmit} />
+            </Route>
+            <Route exact path="/symptom-check/questions">
+              <Question handleQuestionSubmit={handleQuestionSubmit} />
+            </Route>
+            <Route exact path="/symptom-check/results">
+              <Results />
+            </Route>
+          </div>
+        </Switch>
+      </MyContext.Provider >
 
-      <div className="container w-50 shadow p-3 my-5 bg-body rounded text-center">
-        <h1>Symptom Checker</h1>
-        {
-          viewAgeInput &&
-          <AgeInput />
-        }
-        {
-          viewSexInput &&
-          <SexInput />
-        }
-        {
-          viewSymptomInput &&
-          <SearchBar handleFirstSubmit={handleFirstSubmit} />
-        }
-        {
-          viewQuestionInput &&
-          <Question handleQuestionSubmit={handleQuestionSubmit} />
-        }
-        {
-          shouldStop &&
-          <Results />
-        }
-      </div>
-    </MyContext.Provider >
+
 
   );
 }
